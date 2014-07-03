@@ -91,7 +91,7 @@ class GUImain(QtGui.QWidget):
     ##### - Set up Left Body UI
     def uiLeft(self):
         self.leftFrame = QtGui.QFrame()
-        self.leftFrame.setMaximumWidth(200)
+        self.leftFrame.setMaximumWidth(250)
         self.leftFrame.setMinimumWidth(100)
         self.leftFrame.setToolTip('This Left Frame.')
         
