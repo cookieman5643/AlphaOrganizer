@@ -26,7 +26,7 @@ class FileExplorer(QtGui.QVBoxLayout):
     
     #Get Path
     def setPath(self):
-        self.CURRENT_PATH = '/home/cookieman/Dropbox/Files_x/Alpha' + '/files'
+        self.CURRENT_PATH = '/home/cookieman/Dropbox/Files_x/Alpha' #+ '/files'
     
     #Get all the Directories in a given path *NOT FULL
     def getFolders(self, path):
@@ -48,11 +48,14 @@ class FileExplorer(QtGui.QVBoxLayout):
     #Current Directory Folders and Files
     def listLocal(self):
         self.explorerContainer = QtGui.QListWidget()
-        self.explorerContainer.insertItems(0, self.getFolders(self.CURRENT_PATH))
         self.explorerContainer.insertItems(0, self.getFiles(self.CURRENT_PATH))
+        self.explorerContainer.insertItems(0, self.getFolders(self.CURRENT_PATH))
         self.addWidget(self.explorerContainer)
     
+    
+    
     #Start with the initial path
+    #Old/Extra Code
     def addFoldersFiles(self):
         #Create objects to hold info
         self.foldersList = []
@@ -95,6 +98,7 @@ class FileExplorer(QtGui.QVBoxLayout):
         '''
         
     #Walks through all subdirectories and files
+    #KEEP
     def listAllFilesAndFolers(self):
         self.foldersList = []
         self.filesList = []

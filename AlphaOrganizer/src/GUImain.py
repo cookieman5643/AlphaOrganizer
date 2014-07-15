@@ -8,6 +8,7 @@ Created on Jul 2, 2014
 import sys
 from PyQt4 import QtGui, QtCore
 from FileExplorer import FileExplorer
+from FileExplorer2 import FileExplorer2
 
 ######################### - Class Definition
 class GUImain(QtGui.QWidget):
@@ -102,9 +103,12 @@ class GUImain(QtGui.QWidget):
     ##### - Set up Right Body UI
     def uiRight(self):
         self.rightFrame = QtGui.QFrame()
-        self.rightFrame.setMaximumWidth(250)
+        self.rightFrame.setMaximumWidth(500)
         self.rightFrame.setMinimumWidth(50)
         self.rightFrame.setToolTip('This Right Frame.')
+        
+        self.fileExplorer2 = FileExplorer2()
+        self.rightFrame.setLayout(self.fileExplorer2)
         
     ##### - Set UI
     def uiStatusBarMsg(self, msg):
