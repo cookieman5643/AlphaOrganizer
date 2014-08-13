@@ -7,15 +7,22 @@ Created on Jul 2, 2014
 
 import sys
 from PyQt4 import QtGui, QtCore
-from FileExplorer import FileExplorer
-from FileExplorer2 import FileExplorer2
+#from FileExplorer import FileExplorer
+#from FileExplorer2 import FileExplorer2
+from FileExplorer3 import FileExplorerTmp
+from Security import Security
 
 ######################### - Class Definition
 class GUImain(QtGui.QWidget):
     def __init__(self):
          super(GUImain, self).__init__()
          ### - Sets up UI, Layout, etc.
-         self.initUI()
+         
+         
+         self.security = Security()
+         if(self.security.initChecks()):
+            self.initUI()
+        
         
     def initUI(self):
         #Set-up Window
@@ -39,7 +46,7 @@ class GUImain(QtGui.QWidget):
         self.move(50,100)
         
         ### - Window Properties
-        self.setWindowTitle("Alpha Organizer")
+        self.setWindowTitle("Alpha..")
         self.setWindowIcon(QtGui.QIcon('icon.png'))
         
     ##### - Interface Layout, Set-up and Management
@@ -81,10 +88,12 @@ class GUImain(QtGui.QWidget):
         
         #Make Frames:
         self.uiLeft() # creates: leftFrame
+        self.uiCenter() # creates: centerFrame
         self.uiRight() # creates: rightFrame
         
         #Add Frames to Body
         self.bodyLayout.addWidget(self.leftFrame)
+        self.bodyLayout.addWidget(self.centerFrame)
         self.bodyLayout.addWidget(self.rightFrame)
         
         pass     
@@ -92,12 +101,29 @@ class GUImain(QtGui.QWidget):
     ##### - Set up Left Body UI
     def uiLeft(self):
         self.leftFrame = QtGui.QFrame()
-        self.leftFrame.setMaximumWidth(250)
+        self.leftFrame.setMaximumWidth(400)
         self.leftFrame.setMinimumWidth(100)
         self.leftFrame.setToolTip('This Left Frame.')
         
-        self.fileExplorer = FileExplorer()
-        self.leftFrame.setLayout(self.fileExplorer)
+        self.leftLayout = QtGui.QVBoxLayout()
+        self.leftFrame.setLayout(self.leftLayout)
+        
+        self.fileExplorer = FileExplorerTmp()
+        self.leftLayout.addWidget(self.fileExplorer)
+        
+    ##### - Set up Center Body UI
+    def uiCenter(self):
+        self.centerFrame = QtGui.QFrame()
+        self.centerFrame.setMinimumWidth(500)
+        self.centerFrame.setMaximumWidth(1000)
+        self.centerFrame.setToolTip("This Center Frame.")
+        
+        self.centerLayout = QtGui.QVBoxLayout()
+        self.centerFrame.setLayout(self.centerLayout)
+        
+        btn = QtGui.QPushButton("CenterFrame")
+        self.centerLayout.addWidget(btn)
+        
         
         
     ##### - Set up Right Body UI
@@ -107,24 +133,28 @@ class GUImain(QtGui.QWidget):
         self.rightFrame.setMinimumWidth(50)
         self.rightFrame.setToolTip('This Right Frame.')
         
-        self.fileExplorer2 = FileExplorer2()
-        self.rightFrame.setLayout(self.fileExplorer2)
         
-    ##### - Set UI
+    ##### - Set UI status bar
     def uiStatusBarMsg(self, msg):
         self.statusBar.showMessage(msg)
 
     ##### - Show window
     def uiShow(self):
         self.show()
+        
+        
+    ##### - before window closes
+    def closeEvent(self, event):
+        print("Application Close.")
+        self.security.reEncryptPasswordFile()
+        print("Password File Re-encrypted.")
+        event.accept()
 
 
 ######################### - Main Call
 def main():
     app = QtGui.QApplication(sys.argv)
-    
     layout = GUImain()
-    
     sys.exit(app.exec_())
     
 
